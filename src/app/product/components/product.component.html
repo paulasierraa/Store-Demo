@@ -1,9 +1,0 @@
-
-
-    <h3>{{ product.title | uppercase}}</h3>
-    <img [src]="product.image" />
-    <strong>{{product.price |currency}}</strong>
-    <button (click)="addCar()">Agregar al carrito</button>
-    <a [routerLink]="['/products',product.id]">Abrir detalle</a>
-
-  

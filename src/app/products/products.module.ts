@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { ProductsComponent } from './components/products/products.component';
-import {ProductsRoutingModule} from './products-routing.module';
-import {ProductComponentComponent} from '../product/components/product.component';
+import {ProductComponentComponent} from './components/product/product.component';
 import {ProductDetailComponent} from './components/product-detail/product-detail.component';
+
+import {ProductsRoutingModule} from './products-routing.module';
+import {SharedModule} from './../shared/shared.module';
+import {MaterialModule} from './../material/material.module';
 
 @NgModule({
   declarations: [
@@ -14,11 +18,10 @@ import {ProductDetailComponent} from './components/product-detail/product-detail
   ],
   imports: [
     CommonModule,
+    SharedModule,
     ProductsRoutingModule,
-  
+    MaterialModule
   ],
-  exports:[
-    // ProductsComponent
-  ]
+  
 })
 export class ProductsModule { }
