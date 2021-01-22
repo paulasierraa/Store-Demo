@@ -15,15 +15,34 @@ import {Product} from 'src/app/models/product.model';
 })
 export class ProductDetailComponent implements OnInit {
 
-  product: Product={} as Product;
+  product: Product ={} as Product;
   constructor(private route:ActivatedRoute,private productsService:ProductsService) {
    }
 
   ngOnInit(): void {
-    //trae los paramétros de la ruta y luego se suscribe a ese cambio
+  //trae los paramétros de la ruta y luego se suscribe a ese cambio
     this.route.params.subscribe((params:Params)=>{
-       this.product =this.productsService.getProduct(params.id)!;//agrega ! para que mn
+        this.fetchProduct(params.id);
+    //    this.product =this.productsService.getProduct(params.id)!;//agrega ! para que mn
     });
   }
 
+    fetchProduct(id:string){
+      this.productsService.getProduct(id).subscribe(product=>{
+          this.product=product;
+      });
+    }
+
+    crear(product:Product)
+    {
+      this.productsService.createProduct(product).subscribe(data=>{
+        console.log(data);
+      })
+    }
+    update(id:string)
+    {
+      // this.productsService.updateProduct(id).subscribe(data=>{
+      //   console.log(data)
+      // });
+    }
 }
