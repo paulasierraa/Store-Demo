@@ -1,6 +1,8 @@
 import { Component, OnInit,Input ,Output,EventEmitter, SimpleChange,DoCheck, OnDestroy} from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import {Router,RouterModule} from '@angular/router';
+//importamos servicio de carrito
+import {CartService} from 'src/app/core/service/cart/cart.service';
 @Component({
   selector: 'app-product-component',
   templateUrl: './product.component.html',
@@ -12,7 +14,8 @@ export class ProductComponentComponent implements OnInit,DoCheck,OnDestroy {
   @Input() product!:Product; //enviamos la data del componente
   //comunicar componente de hijo a padre
   @Output() productClicked:EventEmitter<any>= new EventEmitter();
-  constructor() { 
+  constructor(private cartService:CartService) {
+
     console.log("soy constructor");
   }
   ngOnChanges(changes: SimpleChange)
@@ -35,7 +38,8 @@ export class ProductComponentComponent implements OnInit,DoCheck,OnDestroy {
   addCar()
   {
     console.log("añadir al carrito");
-    this.productClicked.emit(this.product.id); //enviamos la información al padre
+    // this.productClicked.emit(this.product.id); //enviamos la información al padre
+      this.cartService.addCart(this.product);
   }
 
 }
