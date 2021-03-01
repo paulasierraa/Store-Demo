@@ -32,9 +32,13 @@ const routes: Routes = [
      
       {
         path:'contact',
-        canActivate:[AdminGuard],
         loadChildren:()=> import('./contact/contact.module').then(m=>m.ContactModule)
       },
+      {
+        path:'order',
+        loadChildren:()=> import ('./order/order.module').then(m=>m.OrderModule)
+      },
+
     ]
   },
 
@@ -45,7 +49,12 @@ const routes: Routes = [
   },
   {
     path:'admin',
+    canActivate:[AdminGuard], //no pueden ingresar si no hay una sesión inicializada
     loadChildren:()=>import('./admin/admin.module').then(m=>m.AdminModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
     path:'**',
