@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import {AuthService} from 'src/app/core/service/auth/auth.service';
+import {AuthService} from '@core/service/auth/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -43,5 +43,12 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
+  }
+  loginApi(){
+    this.authService.loginRestApi('paula@gmail.com','123456').subscribe(
+      data=>{
+        console.log(data);
+      }
+    );
   }
 }

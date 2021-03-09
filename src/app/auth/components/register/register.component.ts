@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 //importamos el servicio de autenticación
-import { AuthService } from 'src/app/core/service/auth/auth.service';
+import { AuthService } from '@core/service/auth/auth.service';
 import * as CryptoJS from 'crypto-js';
 import { stringify } from '@angular/compiler/src/util';
 @Component({

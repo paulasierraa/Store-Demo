@@ -3,7 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import {AuthService} from 'src/app/core/service/auth/auth.service';
+import {AuthService} from '@core/service/auth/auth.service';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',

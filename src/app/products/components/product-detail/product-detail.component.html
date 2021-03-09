@@ -1,4 +1,4 @@
-<div *ngIf="product">
+<div *ngIf="(product$|async) as product"><!--CREAMOS UNA VARIABLE CUANDO SE REALICE LA PETICIÓN-->
     <div>
         <img [src]="product.image" alt="" srcset="">
     </div>
@@ -9,5 +9,5 @@
         </ul>
         <p>{{product.description}}</p>
     </div>
-    <!-- <button(click)></button> -->
+    <button (click)="getFile()">Obtener archivo</button>
 </div>

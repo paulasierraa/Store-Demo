@@ -1,27 +1,37 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Product} from 'src/app/models/product.model';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Product} from '@models/product.model';
+import * as Sentry from '@sentry/angular';
 
 import {environment} from 'src/environments/environment';
+import { Observable, throwError } from 'rxjs';
+import {map, catchError,retry} from 'rxjs/operators';
+interface User{
+  email: string;
+  gender: string;
+  phone: string;
+}
 @Injectable({
   providedIn: 'root'
 })
+
 export class ProductsService {
 
-  //CREACIÓN DE URL PARA UNA API
+  // CREACIÓN DE URL PARA UNA API
 
-  constructor(private http:HttpClient) { //inyecto la dependencia
+
+  constructor(private http: HttpClient) { // inyecto la dependencia
 
    }
   getAllProducts()
   {
-    //resuelve un array de tipo product
+    // resuelve un array de tipo product
     return this.http.get<Product[]>(`${environment.url_api}/products/`);
   }
 
-  getProduct(id:string)
+  getProduct(id:string):Observable<Product>
   {
-    //resuelve un objeto de producto
+    // resuelve un objeto de producto
     return this.http.get<Product>(`${environment.url_api}/products/${id}`);
   }
 
@@ -38,10 +48,44 @@ export class ProductsService {
   {
     return this.http.delete(`${environment.url_api}/products/${id}`);
   }
+
+  getRandomUsers(): Observable<User[]>{
+    return this.http.get('https://randomuser.me/api/?results=2')
+    .pipe(
+      retry(3), // lanza 3 veces la petición si después de eso contesta el servidor lanza el handle error
+      catchError(error => {
+        return this.handleError(error);
+      }),
+      // map((response: any) => response.results as User[]) todos los datos que trae el JSON
+      map((response: any) => {
+        const user: User[] = [];
+        response.results.forEach((element: { email: any; gender: any; phone: any; }) => { // Unos datos especificos
+          user.push({
+            email: element.email,
+            gender: element.gender,
+            phone: element.phone,
+          });
+        });
+        return user;
+      })
+    );
+  }
+
+  getFile()  // Obteniendo un archivo
+  {
+    return this.http.get('assets/files/test.txt',{responseType:'text'}); //saber que obtendremos un archivo de tipo texto
+  }
+
+  private handleError(error: HttpErrorResponse){
+    console.log(error);
+    Sentry.captureException(error);
+    return throwError("algo salió mal");
+  }
 }
 /**
  * products:Product[] =[
     {
+     
       id: '1',
       image: 'assets/images/hoodie.png',
       title: 'Camiseta',
